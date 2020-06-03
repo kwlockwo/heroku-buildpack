@@ -8,47 +8,58 @@ BUILD_DIR=${1:-}
 CACHE_DIR=${2:-}
 ENV_DIR=${3:-}
 
-asdf_dir="$HOME/.asdf"
+ASDF_DIR="$BUILD_DIR/.asdf/"
 ASDF_VERSION=${ASDF_VERSION:-'0.7.8'}
+ASDF_COMPLELTION="source ${ASDF_DIR}/completions/asdf.bash"
 
-mkdir -p "$asdf_dir"
-cd "$asdf_dir"
+mkdir -p "$ASDF_DIR"
+cd "$ASDF_DIR"
 if ! [ -x "$(command -v asdf)" ]; then
   echo "-----> Installing asdf v${asdf_version}"
-  git clone --depth=1 https://github.com/asdf-vm/asdf.git "$asdf_dir" --branch "v${ASDF_VERSION}" | indent
-  source ${asdf_dir}/completions/asdf.bash
+  git clone --depth=1 https://github.com/asdf-vm/asdf.git "$ASDF_DIR" --branch "v${ASDF_VERSION}" | indent
+  source "$ASDF_DIR/asdf.sh"
+  if ! [ -x "$(command -v asdf)" ]; then
+    echo "Building asdf failed" | indent
+    exit 1
+  fi
 elif [ "$(git symbolic-ref --short HEAD)" != "v${ASDF_VERSION}" ] ; then
   echo "-----> Switching to asdf v${ASDF_VERSION}"
-  git checkout "v${asdf_version}" | indent
+  git checkout "v${ASDF_VERSION}" | indent
 else
   echo "-----> Using asdf v${ASDF_VERSION}"
 fi
 cd "$BUILD_DIR"
+
+if [ -f "$HOME/.bashrc" && -z $(grep "$asdf_completion" "$HOME/.bashrc")  ]; then
+  echo "$ASDF_COMPLELTION" >> "$HOME/.bashrc"
+else
+  echo "$ASDF_COMPLELTION" > "$HOME/.bashrc"
+fi
 
 if ! asdf plugin-list | grep purescript-zephyr; then
   echo "-----> Adding asdf plugin purescript-zephyr"
   asdf plugin add purescript-zephyr https://github.com/instateam/asdf-purescript-zephyr.git | indent
 else
   echo "-----> Updating asdf plugin purescript-zephyr"
-  asdf plugin update purescript-zephyr |indent
+  asdf plugin update purescript-zephyr | indent
 fi
 
 # TODO: remove
 echo "plugins" | indent
-ls "${asdf_dir}/plugins"
+ls $HOME/.asdf/plugins
 echo "shim" | indent
-ls "${asdf_dir}/shim"
+ls $HOME/.asdf/shim
 
 asdf install | indent
 
 echo "-----> Creating asdf .profile.d script"
 mkdir -p $BUILD_DIR/.profile.d/
-<<EOF > "$BUILD_DIR/.profile.d/asdf.sh"
+cat << EOF > "$BUILD_DIR/.profile.d/asdf.sh"
 echo "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 echo "sourcing asdf"
-# asdf will set $PATH variables
-source ${asdf_dir}/asdf.sh
-ls ${asdf_dir}/plugins
+# asdf will set \$PATH variables
+source ${ASDF_DIR}/asdf.sh
+asdf install
 EOF
 echo "Created with:" | indent
 cat "$BUILD_DIR/.profile.d/asdf.sh" | indent

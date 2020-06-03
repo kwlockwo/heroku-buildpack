@@ -42,9 +42,11 @@ asdf install | indent
 
 echo "-----> Creating asdf .profile.d script"
 mkdir -p $BUILD_DIR/.profile.d/
+# starts with a z to run last?
 cat << EOF > "$BUILD_DIR/.profile.d/zasdf.sh"
-# asdf will set \$PATH variables
+# The next line's bash doesn't seem to work
 export PATH="${ASDF_DIR}/bin:${ASDF_DIR}/shims:\$PATH"
+# asdf will set \$PATH variables
 . ${ASDF_DIR}/asdf.sh
 # bash completions for debugging
 . ${ASDF_DIR}/completions/asdf.bash

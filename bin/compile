@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+
+indent() {
+  sed -u 's/^/       /'
+}
+
+pwd=$1
+
+asdf_dir="$HOME/.asdf"
+asdf_version="$(awk -F ' ' '{ if (match($1, "asdf")) {print $2} }' .tool-versions)"
+if [ -z "$asdf_version" ]; then
+  asdf_version='0.7.8'
+fi
+asdf_completion="source ${asdf_dir}/completions/asdf.bash"
+
+
+cd "$asdf_dir"
+if ! [ -x "$(command -v asdf)" ]; then
+  echo "-----> Installing asdf v${asdf_version}"
+  git clone --depth=1 https://github.com/asdf-vm/asdf.git "$asdf_dir" --branch "v${asdf_version}" | indent
+elif [ "$(git symbolic-ref --short HEAD)" != "v${asdf_version}" ] ; then
+  echo "-----> Switching to asdf v${asdf_version}"
+  git checkout "v${asdf_version}" | indent
+else
+  echo "-----> Using asdf v${asdf_version}"
+fi
+cd "$pwd"
+
+if [ -f "$HOME/.bashrc" && -z $(grep "$asdf_completion" "$HOME/.bashrc")  ]; then
+  echo "$asdf_completion" >> "$HOME/.bashrc"
+else
+  echo "$asdf_completion" > "$HOME/.bashrc"
+fi
+
+if ! asdf plugin-list | grep purescript-zephyr; then
+  asdf plugin add purescript-zephyr https://github.com/instateam/asdf-purescript-zephyr.git | indent
+else
+  asdf plugin update purescript-zephyr | indent
+fi
+
+asdf install | indent
+
+exit 0

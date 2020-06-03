@@ -12,12 +12,14 @@ ASDF_DIR="$BUILD_DIR/.asdf/"
 ASDF_VERSION=${ASDF_VERSION:-'0.7.8'}
 ASDF_COMPLELTION="source ${ASDF_DIR}/completions/asdf.bash"
 
+echo "$ASDF_DIR"
 mkdir -p "$ASDF_DIR"
 cd "$ASDF_DIR"
 if ! [ -x "$(command -v asdf)" ]; then
   echo "-----> Installing asdf v${asdf_version}"
   git clone --depth=1 https://github.com/asdf-vm/asdf.git "$ASDF_DIR" --branch "v${ASDF_VERSION}" | indent
   source "$ASDF_DIR/asdf.sh"
+  echo "Testing setup in $ASDF_DIR"
   if ! [ -x "$(command -v asdf)" ]; then
     echo "Building asdf failed" | indent
     exit 1

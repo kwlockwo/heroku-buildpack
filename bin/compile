@@ -10,11 +10,11 @@ ENV_DIR=${3:-}
 
 ASDF_DIR="$BUILD_DIR/.asdf/"
 ASDF_VERSION=${ASDF_VERSION:-'0.7.8'}
+if [ -f "$BUILD_DIR/.tool-versions" ]; then
+  ASDF_VERSION="$(awk -F ' ' '{ if (match($1, "asdf")) {print $2} }' $BUILD_DIR/.tool-versions)"
+fi
 ASDF_COMPLELTION=". ${ASDF_DIR}/completions/asdf.bash"
 
-cat $BUILD_DIR/.tool-versions
-
-echo "$ASDF_DIR"
 mkdir -p "$ASDF_DIR"
 cd "$ASDF_DIR"
 if ! [ -x "$(command -v asdf)" ]; then
@@ -29,11 +29,11 @@ else
 fi
 cd "$BUILD_DIR"
 
-if [ -f "$HOME/.bashrc" && -z $(grep "$ASDF_COMPLELTION" "$HOME/.bashrc") ]; then
-  echo "$ASDF_COMPLELTION" >> "$HOME/.bashrc"
-else
-  echo "$ASDF_COMPLELTION" > "$HOME/.bashrc"
-fi
+#if [ -f "$HOME/.bashrc" && -z $(grep "$ASDF_COMPLELTION" "$HOME/.bashrc") ]; then
+#  echo "$ASDF_COMPLELTION" >> "$HOME/.bashrc"
+#else
+#  echo "$ASDF_COMPLELTION" > "$HOME/.bashrc"
+#fi
 
 if ! asdf plugin list | grep "purescript-zephyr"; then
   echo "-----> Adding asdf plugin purescript-zephyr"
@@ -50,10 +50,10 @@ echo "-----> Creating asdf .profile.d script"
 mkdir -p $BUILD_DIR/.profile.d/
 cat << EOF > "$BUILD_DIR/.profile.d/asdf.sh"
 # asdf will set \$PATH variables
-. ${ASDF_DIR}/asdf.sh
+#. ${ASDF_DIR}/asdf.sh
 export PATH="${ASDF_DIR}/bin:${ASDF_DIR}/shims:$PATH"
-asdf install
-. ${ASDF_DIR}/asdf.sh
+#asdf install
+#. ${ASDF_DIR}/asdf.sh
 EOF
 
 exit 0

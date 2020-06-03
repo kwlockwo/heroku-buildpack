@@ -7,7 +7,7 @@ indent() {
 pwd=$1
 
 asdf_dir="$HOME/.asdf"
-ASDF_VERSION={$ASDF_VERSION:-'0.7.8'}
+ASDF_VERSION=${ASDF_VERSION:-'0.7.8'}
 
 mkdir -p "$asdf_dir"
 cd "$asdf_dir"

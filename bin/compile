@@ -7,40 +7,48 @@ indent() {
 pwd=$1
 
 asdf_dir="$HOME/.asdf"
-
-if [ -f "$HOME/.tool-versions" ]; then
-  asdf_version="$(awk -F ' ' '{ if (match($1, "asdf")) {print $2} }' $HOME/.tool-versions)"
-fi
-if [ -z "$asdf_version" ]; then
-  asdf_version='0.7.8'
-fi
+ASDF_VERSION={$ASDF_VERSION:-'0.7.8'}
 
 mkdir -p "$asdf_dir"
 cd "$asdf_dir"
 if ! [ -x "$(command -v asdf)" ]; then
   echo "-----> Installing asdf v${asdf_version}"
-  git clone --depth=1 https://github.com/asdf-vm/asdf.git "$asdf_dir" --branch "v${asdf_version}" | indent
+  git clone --depth=1 https://github.com/asdf-vm/asdf.git "$asdf_dir" --branch "v${ASDF_VERSION}" | indent
   source ${asdf_dir}/completions/asdf.bash
-elif [ "$(git symbolic-ref --short HEAD)" != "v${asdf_version}" ] ; then
-  echo "-----> Switching to asdf v${asdf_version}"
+elif [ "$(git symbolic-ref --short HEAD)" != "v${ASDF_VERSION}" ] ; then
+  echo "-----> Switching to asdf v${ASDF_VERSION}"
   git checkout "v${asdf_version}" | indent
 else
-  echo "-----> Using asdf v${asdf_version}"
+  echo "-----> Using asdf v${ASDF_VERSION}"
 fi
 cd "$pwd"
 
 if ! asdf plugin-list | grep purescript-zephyr; then
+  echo "-----> Adding asdf plugin purescript-zephyr"
   asdf plugin add purescript-zephyr https://github.com/instateam/asdf-purescript-zephyr.git | indent
 else
+  echo "-----> Updating asdf plugin purescript-zephyr"
   asdf plugin update purescript-zephyr |indent
 fi
+
+# TODO: remove
+echo "plugins" | indent
+ls "${asdf_dir}/plugins"
+echo "shim" | indent
+ls "${asdf_dir}/shim"
 
 asdf install | indent
 
 echo "-----> Creating asdf .profile.d script"
-mkdir -p "${BUILD_DIR}/.profile.d/"
-echo "source ${asdf_dir}/asdf.sh" >> "${BUILD_DIR}/.profile.d/asdf.sh"
+mkdir -p $BUILD_DIR/.profile.d/
+<<EOF > "$BUILD_DIR/.profile.d/asdf.sh"
+echo "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+echo "sourcing asdf"
+# asdf will set $PATH variables
+source ${asdf_dir}/asdf.sh
+ls ${asdf_dir}/plugins
+EOF
 echo "Created with:" | indent
-cat "${BUILD_DIR}/.profile.d/asdf.sh" | indent
+cat "$BUILD_DIR/.profile.d/asdf.sh" | indent
 
 exit 0

@@ -19,14 +19,7 @@ if ! [ -x "$(command -v asdf)" ]; then
   echo "-----> Installing asdf v${asdf_version}"
   git clone --depth=1 https://github.com/asdf-vm/asdf.git "$ASDF_DIR" --branch "v${ASDF_VERSION}" | indent
   . "$ASDF_DIR/asdf.sh"
-  echo "Testing setup in $ASDF_DIR"
-  ls $ASDF_DIR/bin
-  echo "command"
-  command -v asdf
-  if ! [ -x "$(command -v asdf)" ]; then
-    echo "Building asdf failed" | indent
-    exit 1
-  fi
+  asdf | indent
 elif [ "$(git symbolic-ref --short HEAD)" != "v${ASDF_VERSION}" ] ; then
   echo "-----> Switching to asdf v${ASDF_VERSION}"
   git checkout "v${ASDF_VERSION}" | indent

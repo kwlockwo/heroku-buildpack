@@ -29,12 +29,6 @@ else
 fi
 cd "$BUILD_DIR"
 
-#if [ -f "$HOME/.bashrc" && -z $(grep "$ASDF_COMPLELTION" "$HOME/.bashrc") ]; then
-#  echo "$ASDF_COMPLELTION" >> "$HOME/.bashrc"
-#else
-#  echo "$ASDF_COMPLELTION" > "$HOME/.bashrc"
-#fi
-
 if ! asdf plugin list | grep "purescript-zephyr"; then
   echo "-----> Adding asdf plugin purescript-zephyr"
   asdf plugin add purescript-zephyr https://github.com/instateam/asdf-purescript-zephyr.git | indent
@@ -50,10 +44,10 @@ echo "-----> Creating asdf .profile.d script"
 mkdir -p $BUILD_DIR/.profile.d/
 cat << EOF > "$BUILD_DIR/.profile.d/asdf.sh"
 # asdf will set \$PATH variables
-#. ${ASDF_DIR}/asdf.sh
-export PATH="${ASDF_DIR}/bin:${ASDF_DIR}/shims:$PATH"
-#asdf install
-#. ${ASDF_DIR}/asdf.sh
+export PATH=${ASDF_DIR}/bin:${ASDF_DIR}/shims:\$PATH
+. ${ASDF_DIR}/asdf.sh
+# bash completions for debugging
+. ${ASDF_DIR}/completions/asdf.bash
 EOF
 
 exit 0

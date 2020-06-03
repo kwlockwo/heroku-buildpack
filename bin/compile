@@ -4,7 +4,9 @@ indent() {
   sed -u 's/^/       /'
 }
 
-pwd=$1
+BUILD_DIR=${1:-}
+CACHE_DIR=${2:-}
+ENV_DIR=${3:-}
 
 asdf_dir="$HOME/.asdf"
 ASDF_VERSION=${ASDF_VERSION:-'0.7.8'}
@@ -21,7 +23,7 @@ elif [ "$(git symbolic-ref --short HEAD)" != "v${ASDF_VERSION}" ] ; then
 else
   echo "-----> Using asdf v${ASDF_VERSION}"
 fi
-cd "$pwd"
+cd "$BUILD_DIR"
 
 if ! asdf plugin-list | grep purescript-zephyr; then
   echo "-----> Adding asdf plugin purescript-zephyr"

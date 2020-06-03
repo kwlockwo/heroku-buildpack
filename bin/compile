@@ -10,7 +10,7 @@ ENV_DIR=${3:-}
 
 ASDF_DIR="$BUILD_DIR/.asdf/"
 ASDF_VERSION=${ASDF_VERSION:-'0.7.8'}
-ASDF_COMPLELTION="source ${ASDF_DIR}/completions/asdf.bash"
+ASDF_COMPLELTION=". ${ASDF_DIR}/completions/asdf.bash"
 
 echo "$ASDF_DIR"
 mkdir -p "$ASDF_DIR"
@@ -18,7 +18,7 @@ cd "$ASDF_DIR"
 if ! [ -x "$(command -v asdf)" ]; then
   echo "-----> Installing asdf v${asdf_version}"
   git clone --depth=1 https://github.com/asdf-vm/asdf.git "$ASDF_DIR" --branch "v${ASDF_VERSION}" | indent
-  source "$ASDF_DIR/asdf.sh"
+  . "$ASDF_DIR/asdf.sh"
   echo "Testing setup in $ASDF_DIR"
   ls $ASDF_DIR
   if ! [ -x "$(command -v asdf)" ]; then
@@ -61,7 +61,7 @@ tee "$BUILD_DIR/.profile.d/asdf.sh" <<EOF
 echo "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 echo "sourcing asdf"
 # asdf will set \$PATH variables
-source ${ASDF_DIR}/asdf.sh
+. ${ASDF_DIR}/asdf.sh
 asdf install
 EOF
 echo "Created with:" | indent

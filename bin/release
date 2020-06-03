@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 
+asdf_dir="$HOME/.asdf"
+source "${asdf_dir}/asdf.sh"
+
 cat << EOF
 ---
 addons:
 config_vars:
-  PATH: bin:/usr/bin:/bin
+  PATH: $PATH
 EOF

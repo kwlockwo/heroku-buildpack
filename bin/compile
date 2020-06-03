@@ -20,6 +20,7 @@ if ! [ -x "$(command -v asdf)" ]; then
   git clone --depth=1 https://github.com/asdf-vm/asdf.git "$ASDF_DIR" --branch "v${ASDF_VERSION}" | indent
   source "$ASDF_DIR/asdf.sh"
   echo "Testing setup in $ASDF_DIR"
+  ls $ASDF_DIR
   if ! [ -x "$(command -v asdf)" ]; then
     echo "Building asdf failed" | indent
     exit 1

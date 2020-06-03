@@ -56,7 +56,7 @@ asdf install | indent
 
 echo "-----> Creating asdf .profile.d script"
 mkdir -p $BUILD_DIR/.profile.d/
-cat << EOF > "$BUILD_DIR/.profile.d/asdf.sh"
+tee "$BUILD_DIR/.profile.d/asdf.sh" <<EOF
 echo "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 echo "sourcing asdf"
 # asdf will set \$PATH variables

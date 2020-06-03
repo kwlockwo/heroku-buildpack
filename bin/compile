@@ -11,8 +11,6 @@ asdf_version="$(awk -F ' ' '{ if (match($1, "asdf")) {print $2} }' .tool-version
 if [ -z "$asdf_version" ]; then
   asdf_version='0.7.8'
 fi
-asdf_completion="source ${asdf_dir}/completions/asdf.bash"
-
 
 cd "$asdf_dir"
 if ! [ -x "$(command -v asdf)" ]; then
@@ -27,18 +25,15 @@ else
 fi
 cd "$pwd"
 
-if [ -f "$HOME/.bashrc" && -z $(grep "$asdf_completion" "$HOME/.bashrc")  ]; then
-  echo "$asdf_completion" >> "$HOME/.bashrc"
-else
-  echo "$asdf_completion" > "$HOME/.bashrc"
-fi
-
 if ! asdf plugin-list | grep purescript-zephyr; then
   asdf plugin add purescript-zephyr https://github.com/instateam/asdf-purescript-zephyr.git | indent
 else
-  asdf plugin update purescript-zephyr | indent
+  asdf plugin update purescript-zephyr |indent
 fi
 
 asdf install | indent
+
+mkdir -p $BUILD_DIR/.profile.d/
+echo "source ${asdf_dir}/asdf.sh" >> $BUILD_DIR/.profile.d/asdf.sh
 
 exit 0

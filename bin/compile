@@ -20,7 +20,9 @@ if ! [ -x "$(command -v asdf)" ]; then
   git clone --depth=1 https://github.com/asdf-vm/asdf.git "$ASDF_DIR" --branch "v${ASDF_VERSION}" | indent
   . "$ASDF_DIR/asdf.sh"
   echo "Testing setup in $ASDF_DIR"
-  ls $ASDF_DIR
+  ls $ASDF_DIR/bin
+  echo "command"
+  command -v asdf
   if ! [ -x "$(command -v asdf)" ]; then
     echo "Building asdf failed" | indent
     exit 1
@@ -57,7 +59,7 @@ asdf install | indent
 
 echo "-----> Creating asdf .profile.d script"
 mkdir -p $BUILD_DIR/.profile.d/
-tee "$BUILD_DIR/.profile.d/asdf.sh" <<EOF
+cat << EOF > "$BUILD_DIR/.profile.d/asdf.sh"
 echo "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 echo "sourcing asdf"
 # asdf will set \$PATH variables

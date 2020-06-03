@@ -44,10 +44,10 @@ echo "-----> Creating asdf .profile.d script"
 mkdir -p $BUILD_DIR/.profile.d/
 cat << EOF > "$BUILD_DIR/.profile.d/asdf.sh"
 # asdf will set \$PATH variables
-export PATH=${ASDF_DIR}/bin:${ASDF_DIR}/shims:\$PATH
-. ${ASDF_DIR}/asdf.sh
+export PATH="${ASDF_DIR}/bin:${ASDF_DIR}/shims:\$PATH"
+#. ${ASDF_DIR}/asdf.sh
 # bash completions for debugging
-. ${ASDF_DIR}/completions/asdf.bash
+#. ${ASDF_DIR}/completions/asdf.bash
 EOF
 
 exit 0

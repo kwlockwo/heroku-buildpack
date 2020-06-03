@@ -12,6 +12,8 @@ ASDF_DIR="$BUILD_DIR/.asdf/"
 ASDF_VERSION=${ASDF_VERSION:-'0.7.8'}
 ASDF_COMPLELTION=". ${ASDF_DIR}/completions/asdf.bash"
 
+cat $BUILD_DIR/.tool-versions
+
 echo "$ASDF_DIR"
 mkdir -p "$ASDF_DIR"
 cd "$ASDF_DIR"
@@ -28,13 +30,13 @@ else
 fi
 cd "$BUILD_DIR"
 
-if [ -f "$HOME/.bashrc" && -z $(grep "$asdf_completion" "$HOME/.bashrc")  ]; then
+if [ -f "$HOME/.bashrc" && -z $(grep "$ASDF_COMPLELTION" "$HOME/.bashrc") ]; then
   echo "$ASDF_COMPLELTION" >> "$HOME/.bashrc"
 else
   echo "$ASDF_COMPLELTION" > "$HOME/.bashrc"
 fi
 
-if ! asdf plugin-list | grep purescript-zephyr; then
+if ! asdf plugin list | grep "purescript-zephyr"; then
   echo "-----> Adding asdf plugin purescript-zephyr"
   asdf plugin add purescript-zephyr https://github.com/instateam/asdf-purescript-zephyr.git | indent
 else
@@ -48,6 +50,7 @@ ls $HOME/.asdf/plugins
 echo "shim" | indent
 ls $HOME/.asdf/shim
 
+echo "attempt to install???"
 asdf install | indent
 
 echo "-----> Creating asdf .profile.d script"

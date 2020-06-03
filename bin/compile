@@ -33,7 +33,9 @@ fi
 
 asdf install | indent
 
+echo "-----> Creating asdf .profile.d script"
 mkdir -p "${BUILD_DIR}/.profile.d/"
 echo "source ${asdf_dir}/asdf.sh" >> "${BUILD_DIR}/.profile.d/asdf.sh"
+echo "Created" | indent
 
 exit 0

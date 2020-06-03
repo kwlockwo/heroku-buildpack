@@ -33,7 +33,7 @@ fi
 
 asdf install | indent
 
-mkdir -p $BUILD_DIR/.profile.d/
-echo "source ${asdf_dir}/asdf.sh" >> $BUILD_DIR/.profile.d/asdf.sh
+mkdir -p "${BUILD_DIR}/.profile.d/"
+echo "source ${asdf_dir}/asdf.sh" >> "${BUILD_DIR}/.profile.d/asdf.sh"
 
 exit 0

@@ -7,11 +7,15 @@ indent() {
 pwd=$1
 
 asdf_dir="$HOME/.asdf"
-asdf_version="$(awk -F ' ' '{ if (match($1, "asdf")) {print $2} }' .tool-versions)"
+
+if [ -f "$HOME/.tool-versions" ]; then
+  asdf_version="$(awk -F ' ' '{ if (match($1, "asdf")) {print $2} }' $HOME/.tool-versions)"
+fi
 if [ -z "$asdf_version" ]; then
   asdf_version='0.7.8'
 fi
 
+mkdir -p "$asdf_dir"
 cd "$asdf_dir"
 if ! [ -x "$(command -v asdf)" ]; then
   echo "-----> Installing asdf v${asdf_version}"

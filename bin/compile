@@ -18,6 +18,7 @@ cd "$asdf_dir"
 if ! [ -x "$(command -v asdf)" ]; then
   echo "-----> Installing asdf v${asdf_version}"
   git clone --depth=1 https://github.com/asdf-vm/asdf.git "$asdf_dir" --branch "v${asdf_version}" | indent
+  source ${asdf_dir}/completions/asdf.bash
 elif [ "$(git symbolic-ref --short HEAD)" != "v${asdf_version}" ] ; then
   echo "-----> Switching to asdf v${asdf_version}"
   git checkout "v${asdf_version}" | indent

@@ -42,7 +42,7 @@ asdf install | indent
 
 echo "-----> Creating asdf .profile.d script"
 mkdir -p $BUILD_DIR/.profile.d/
-cat << EOF > "$BUILD_DIR/.profile.d/asdf.sh"
+cat << EOF > "$BUILD_DIR/.profile.d/zasdf.sh"
 # asdf will set \$PATH variables
 export PATH="${ASDF_DIR}/bin:${ASDF_DIR}/shims:\$PATH"
 . ${ASDF_DIR}/asdf.sh

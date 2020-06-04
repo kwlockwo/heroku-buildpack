@@ -1,15 +1,19 @@
 #!/usr/bin/env bash
+# bin/compile <build-dir> <cache-dir> <env-dir>
 
-indent() {
-  sed -u 's/^/       /'
-}
+set -eo pipefail
 
 BUILD_DIR=${1:-}
 CACHE_DIR=${2:-}
 ENV_DIR=${3:-}
 BP_DIR=$(cd "$(dirname "${0:-}")"; cd ..; pwd)
 
+indent() {
+  sed -u 's/^/       /'
+}
+
 ASDF_DIR="$BUILD_DIR/.asdf/"
+ASDF_CACHE="$CACHE_DIR/asdf/"
 ASDF_VERSION=${ASDF_VERSION:-'0.7.8'}
 if [ -f "$BUILD_DIR/.tool-versions" ]; then
   ASDF_VERSION="$(awk -F ' ' '{ if (match($1, "asdf")) {print $2} }' $BUILD_DIR/.tool-versions)"
@@ -17,18 +21,27 @@ fi
 ASDF_COMPLELTION=". ${ASDF_DIR}/completions/asdf.bash"
 
 mkdir -p "$ASDF_DIR"
-cd "$ASDF_DIR"
+
+# Copying from cache
+if [ -d $ASDF_CACHE ]; then
+  cp -r $ASDF_CACHE $ASDF_DIR
+  . "$ASDF_DIR/asdf.sh"
+else
+  mkdir -p "$ASDF_CACHE"
+fi
+
 if ! [ -x "$(command -v asdf)" ]; then
   echo "-----> Installing asdf v${ASDF_VERSION}"
   git clone --quiet --depth=1 https://github.com/asdf-vm/asdf.git "$ASDF_DIR" --branch "v${ASDF_VERSION}" | indent
   . "$ASDF_DIR/asdf.sh"
 elif [ "$(git symbolic-ref --short HEAD)" != "v${ASDF_VERSION}" ] ; then
   echo "-----> Switching to asdf v${ASDF_VERSION}"
+  cd "$ASDF_DIR"
   git checkout "v${ASDF_VERSION}" | indent
+  cd "$BUILD_DIR"
 else
   echo "-----> Using asdf v${ASDF_VERSION}"
 fi
-cd "$BUILD_DIR"
 
 if ! asdf plugin list | grep "purescript-zephyr"; then
   echo "-----> Adding asdf plugin purescript-zephyr"
@@ -38,14 +51,15 @@ else
   asdf plugin update purescript-zephyr | indent
 fi
 
-echo "-----> Attempt to install plugins???"
+echo "-----> Install asdf plugins"
 asdf install | indent
+
+# Copying to cache
+cp -r $ASDF_DIR $ASDF_CACHE
 
 echo "-----> Creating asdf .profile.d script"
 mkdir -p $BUILD_DIR/.profile.d/
-# starts with a z to run last?
-cat << EOF > "$BUILD_DIR/.profile.d/zasdf.sh"
-# The next line's bash doesn't seem to work
+cat << EOF > "$BUILD_DIR/.profile.d/asdf.sh"
 # asdf will set \$PATH variables
 . ${ASDF_DIR}/asdf.sh
 export PATH=$PATH

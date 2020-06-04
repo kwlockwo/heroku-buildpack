@@ -45,9 +45,9 @@ mkdir -p $BUILD_DIR/.profile.d/
 # starts with a z to run last?
 cat << EOF > "$BUILD_DIR/.profile.d/zasdf.sh"
 # The next line's bash doesn't seem to work
-export PATH="${ASDF_DIR}/bin:${ASDF_DIR}/shims:\$PATH"
 # asdf will set \$PATH variables
 . ${ASDF_DIR}/asdf.sh
+export PATH="$PATH"
 # bash completions for debugging
 . ${ASDF_DIR}/completions/asdf.bash
 EOF

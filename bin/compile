@@ -7,6 +7,7 @@ indent() {
 BUILD_DIR=${1:-}
 CACHE_DIR=${2:-}
 ENV_DIR=${3:-}
+BP_DIR=$(cd "$(dirname "${0:-}")"; cd ..; pwd)
 
 ASDF_DIR="$BUILD_DIR/.asdf/"
 ASDF_VERSION=${ASDF_VERSION:-'0.7.8'}
@@ -53,8 +54,8 @@ export PATH=$PATH
 EOF
 
 echo "-----> Creating asdf export script"
-cat << EOF > $BUILD_DIR/export
-export PATH="${ASDF_DIR}/bin:${ASDF_DIR}/shims:\$PATH"
+cat << EOF > $BP_DIR/export
+#export PATH="${ASDF_DIR}/bin:${ASDF_DIR}/shims:\$PATH"
 . ${ASDF_DIR}/asdf.sh
 export PATH=$PATH
 EOF

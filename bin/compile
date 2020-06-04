@@ -54,7 +54,7 @@ EOF
 
 echo "-----> Creating asdf export script"
 cat << EOF > $BUILD_DIR/export
-# export PATH="${ASDF_DIR}/bin:${ASDF_DIR}/shims:\$PATH"
+export PATH="${ASDF_DIR}/bin:${ASDF_DIR}/shims:\$PATH"
 . ${ASDF_DIR}/asdf.sh
 export PATH=$PATH
 EOF

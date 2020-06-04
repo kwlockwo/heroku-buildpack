@@ -37,7 +37,7 @@ else
   asdf plugin update purescript-zephyr | indent
 fi
 
-echo "-------> Attempt to install plugins???"
+echo "-----> Attempt to install plugins???"
 asdf install | indent
 
 echo "-----> Creating asdf .profile.d script"
@@ -47,14 +47,16 @@ cat << EOF > "$BUILD_DIR/.profile.d/zasdf.sh"
 # The next line's bash doesn't seem to work
 # asdf will set \$PATH variables
 . ${ASDF_DIR}/asdf.sh
-export PATH="$PATH"
+export PATH=$PATH
 # bash completions for debugging
 . ${ASDF_DIR}/completions/asdf.bash
 EOF
 
 echo "-----> Creating asdf export script"
-cat << EOF > "$BUILD_DIR/export"
-export PATH="${ASDF_DIR}/bin:${ASDF_DIR}/shims:\$PATH"
+cat << EOF > $BUILD_DIR/export
+# export PATH="${ASDF_DIR}/bin:${ASDF_DIR}/shims:\$PATH"
+. ${ASDF_DIR}/asdf.sh
+export PATH=$PATH
 EOF
 
 exit 0

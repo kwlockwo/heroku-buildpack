@@ -67,6 +67,9 @@ echo "-----> Packages asdf plugins"
 cat .tool-versions | indent
 
 echo "-----> Install asdf plugins"
+if [ -x "./.tool-versions" && -f "$BUILD_DIR/.tool-versions" ]; then
+  ln -s "$BUILD_DIR/.tool-versions" "./.tool-versions"
+fi
 asdf install | indent
 
 # Copying to cache

@@ -54,6 +54,9 @@ else
   asdf plugin update purescript-zephyr | indent
 fi
 
+echo "-----> Packages asdf plugins"
+cat .tool-versions | indent
+
 echo "-----> Install asdf plugins"
 asdf install | indent
 

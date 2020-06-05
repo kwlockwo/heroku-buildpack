@@ -64,10 +64,11 @@ echo "-----> Packages asdf plugins"
 cat .tool-versions | indent
 
 echo "-----> Install asdf plugins"
-if [ -x ".tool-versions" && -f "$BUILD_DIR/.tool-versions" ]; then
+if [ -x ".tool-versions" ] && [ -f "$BUILD_DIR/.tool-versions" ]; then
   echo "cp" | indent
   cp "$BUILD_DIR/.tool-versions" .
 fi
+ls -a | grep "^\."
 asdf install | indent
 
 # Copying to cache

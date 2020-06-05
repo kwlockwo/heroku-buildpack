@@ -60,15 +60,13 @@ ls -a . | indent
 echo "-----> ls -a BUILD_DIR"
 ls -a $BUILD_DIR | indent
 
-echo "-----> ls -a CACHE_DIR"
-ls -a $CACHE_DIR | indent
-
 echo "-----> Packages asdf plugins"
 cat .tool-versions | indent
 
 echo "-----> Install asdf plugins"
-if [ -x "./.tool-versions" && -f "$BUILD_DIR/.tool-versions" ]; then
-  ln -s "$BUILD_DIR/.tool-versions" "./.tool-versions"
+if [ -x ".tool-versions" && -f "$BUILD_DIR/.tool-versions" ]; then
+  echo "cp" | indent
+  cp "$BUILD_DIR/.tool-versions" .
 fi
 asdf install | indent
 

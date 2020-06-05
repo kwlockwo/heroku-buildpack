@@ -54,20 +54,11 @@ else
   asdf plugin update purescript-zephyr | indent
 fi
 
-echo "-----> ls -a ."
-ls -a . | indent
-
-echo "-----> ls -a BUILD_DIR"
-ls -a $BUILD_DIR | indent
-
 echo "-----> Install asdf plugins"
 if ! [ -f ".tool-versions" ] && [ -f "$BUILD_DIR/.tool-versions" ]; then
   echo "cp" | indent
   cp "$BUILD_DIR/.tool-versions" .
 fi
-echo "-----> Packages asdf plugins2"
-cat .tool-versions | indent
-ls -a | grep "^\."
 asdf install | indent
 
 # Copying to cache

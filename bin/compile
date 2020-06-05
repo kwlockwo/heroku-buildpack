@@ -60,9 +60,6 @@ ls -a . | indent
 echo "-----> ls -a BUILD_DIR"
 ls -a $BUILD_DIR | indent
 
-echo "-----> Packages asdf plugins"
-cat .tool-versions | indent
-
 echo "-----> Install asdf plugins"
 if ! [ -f ".tool-versions" ] && [ -f "$BUILD_DIR/.tool-versions" ]; then
   echo "cp" | indent

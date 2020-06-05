@@ -54,10 +54,14 @@ else
   asdf plugin update purescript-zephyr | indent
 fi
 
-echo "-----> Packages asdf"
-ls . | indent
-ls $BUILD_DIR | indent
-ls $CACHE_DIR | indent
+echo "-----> ls -a ."
+ls -a . | indent
+
+echo "-----> ls -a BUILD_DIR"
+ls -a $BUILD_DIR | indent
+
+echo "-----> ls -a CACHE_DIR"
+ls -a $CACHE_DIR | indent
 
 echo "-----> Packages asdf plugins"
 cat .tool-versions | indent

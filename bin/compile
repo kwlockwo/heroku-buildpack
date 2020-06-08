@@ -24,12 +24,13 @@ mkdir -p "$ASDF_DIR"
 
 # Copying from cache
 if [ -d "$ASDF_CACHE" ]; then
-  echo "-----> Copying asdf cache"
-  cp -r "$ASDF_CACHE" "$ASDF_DIR"
-  if [ -x "$ASDF_DIR/asdf.sh" ]; then
+  if [ -x "$ASDF_CACHE/asdf.sh" ]; then
+    echo "-----> Copying asdf cache"
+    cp -r "$ASDF_CACHE" "$ASDF_DIR/.."
     . "$ASDF_DIR/asdf.sh"
   else
-    rm -rf "$ASDF_DIR"
+    echo "-----> No shell script in asdf cache; removing"
+    rm -rf "$ASDF_CACHE"
   fi
 else
   mkdir -p "$ASDF_CACHE"

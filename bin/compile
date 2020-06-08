@@ -65,7 +65,7 @@ fi
 asdf install | indent
 
 # Copying to cache
-cp -r "$ASDF_DIR" "$ASDF_CACHE"
+cp -Trf "$ASDF_DIR" "$ASDF_CACHE"
 
 echo "-----> Creating asdf .profile.d script"
 mkdir -p $BUILD_DIR/.profile.d/

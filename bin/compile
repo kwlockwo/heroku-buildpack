@@ -26,8 +26,10 @@ mkdir -p "$ASDF_DIR"
 if [ -d "$ASDF_CACHE" ]; then
   echo "-----> Copying asdf cache"
   cp -r "$ASDF_CACHE" "$ASDF_DIR"
-  if [ -f "$ASDF_DIR/asdf.sh" ]; then
+  if [ -x "$ASDF_DIR/asdf.sh" ]; then
     . "$ASDF_DIR/asdf.sh"
+  else
+    rm -rf "$ASDF_DIR"
   fi
 else
   mkdir -p "$ASDF_CACHE"

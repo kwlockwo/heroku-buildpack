@@ -26,7 +26,7 @@ mkdir -p "$ASDF_DIR"
 if [ -d "$ASDF_CACHE" ]; then
   if [ -x "$ASDF_CACHE/asdf.sh" ]; then
     echo "-----> Copying asdf cache"
-    cp -r "$ASDF_CACHE" "$ASDF_DIR/.."
+    cp -Trf "$ASDF_CACHE" "$ASDF_DIR/"
     . "$ASDF_DIR/asdf.sh"
   else
     echo "-----> No shell script in asdf cache; removing"

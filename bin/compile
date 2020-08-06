@@ -54,15 +54,15 @@ function add_install_asdf_plugin {
   repo="$2"
   if ! asdf plugin list | grep $plugin; then
     echo "-----> Adding asdf $plugin"
-    asdf plugin add $plugin $repo
+    asdf plugin add $plugin $repo | indent
   else
     echo "-----> Updating asdf plugin $plugin"
-    asdf plugin update $plugin
+    asdf plugin update $plugin | indent
   fi
 }
 
-add_install_asdf_plugin "dhall" | indent
-add_install_asdf_plugin "purescript-zephyr" "https://github.com/instateam/asdf-purescript-zephyr.git" | indent
+add_install_asdf_plugin "dhall"
+add_install_asdf_plugin "purescript-zephyr" "https://github.com/instateam/asdf-purescript-zephyr.git"
 
 echo "-----> Install asdf plugins"
 if ! [ -f ".tool-versions" ] && [ -f "$BUILD_DIR/.tool-versions" ]; then

@@ -49,13 +49,20 @@ else
   echo "-----> Using asdf v${ASDF_VERSION}"
 fi
 
-if ! asdf plugin list | grep "purescript-zephyr"; then
-  echo "-----> Adding asdf plugin purescript-zephyr"
-  asdf plugin add purescript-zephyr https://github.com/instateam/asdf-purescript-zephyr.git | indent
-else
-  echo "-----> Updating asdf plugin purescript-zephyr"
-  asdf plugin update purescript-zephyr | indent
-fi
+function add_install_asdf_plugin {
+  plugin="$1"
+  repo="$2"
+  if ! asdf plugin list | grep $plugin; then
+    echo "-----> Adding asdf $plugin"
+    asdf plugin add purescript-zephyr $repo | indent
+  else
+    echo "-----> Updating asdf plugin purescript-zephyr"
+    asdf plugin update purescript-zephyr | indent
+  fi
+}
+
+add_install_asdf_plugin "dhall"
+add_install_asdf_plugin "purescript-zephyr" "https://github.com/instateam/asdf-purescript-zephyr.git"
 
 echo "-----> Install asdf plugins"
 if ! [ -f ".tool-versions" ] && [ -f "$BUILD_DIR/.tool-versions" ]; then

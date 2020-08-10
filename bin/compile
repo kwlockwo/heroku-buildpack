@@ -49,7 +49,7 @@ else
   echo "-----> Using asdf v${ASDF_VERSION}"
 fi
 
-function add_install_asdf_plugin {
+add_install_asdf_plugin() {
   plugin="$1"
   repo="$2"
   if ! asdf plugin list | grep $plugin; then

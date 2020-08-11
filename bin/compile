@@ -78,17 +78,17 @@ echo "*ASDF_REL_DIR: $ASDF_REL_DIR"
 mkdir -p $BUILD_DIR/.profile.d/
 cat << EOF > "$BUILD_DIR/.profile.d/instateam-asdf.sh"
 # asdf will set \$PATH variables
-. ${ASDF_REL_DIR}/asdf.sh
+. \$HOME/${ASDF_REL_DIR}/asdf.sh
 export PATH=$PATH
 
 # bash completions for debugging
-[ -z "$BASH_VERSION" ] && . ${ASDF_REL_DIR}/completions/asdf.bash
+[ -z "$BASH_VERSION" ] && . \$HOME/${ASDF_REL_DIR}/completions/asdf.bash
 EOF
 
 echo "-----> Creating asdf export script"
 cat << EOF > $BP_DIR/export
 #export PATH="${ASDF_DIR}/bin:${ASDF_DIR}/shims:\$PATH"
-. ${ASDF_REL_DIR}/asdf.sh
+. \$HOME/${ASDF_REL_DIR}/asdf.sh
 export PATH=$PATH
 EOF
 

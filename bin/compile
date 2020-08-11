@@ -17,7 +17,11 @@ ASDF_VERSION=${ASDF_VERSION:-'0.7.8'}
 if [ -f "$BUILD_DIR/.tool-versions" ]; then
   ASDF_VERSION="$(awk -F ' ' '{ if (match($1, "asdf")) {print $2} }' $BUILD_DIR/.tool-versions)"
 fi
-ASDF_COMPLELTION=". ${ASDF_DIR}/completions/asdf.bash"
+
+# TODO DELETE
+echo "$ASDF_DIR"
+echo "$ASDF_CACHE"
+echo "$ASDF_VERSION"
 
 mkdir -p "$ASDF_DIR"
 
@@ -25,7 +29,7 @@ mkdir -p "$ASDF_DIR"
 if [ -d "$ASDF_CACHE" ]; then
   if [ -x "$ASDF_CACHE/asdf.sh" ]; then
     echo "-----> Copying asdf cache"
-    cp -Trf "$ASDF_CACHE" "$ASDF_DIR"
+    cp -Trf "$ASDF_CACHE" "$ASDF_DIR/"
     . "$ASDF_DIR/asdf.sh"
   else
     echo "-----> No shell script in asdf cache; removing"
@@ -50,7 +54,7 @@ fi
 
 add_install_asdf_plugin() {
   plugin="$1"
-  repo="$2"
+  repo=${2:-}
   if ! asdf plugin list | grep $plugin; then
     echo "-----> Adding asdf $plugin"
     asdf plugin add $plugin $repo | indent
@@ -70,8 +74,8 @@ if ! [ -f ".tool-versions" ] && [ -f "$BUILD_DIR/.tool-versions" ]; then
 fi
 asdf install | indent
 
-# Copying to cache
-cp -Trf "$ASDF_DIR" "$ASDF_CACHE"
+echo "-----> Coping asdf over to cache"
+cp -Trf "$ASDF_DIR" "$ASDF_CACHE/"
 
 echo "-----> Creating asdf .profile.d script"
 ASDF_REL_DIR="$(realpath --relative-to="$BUILD_DIR" "$ASDF_DIR")"

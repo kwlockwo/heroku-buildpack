@@ -75,8 +75,8 @@ cp -Trf "$ASDF_DIR" "$ASDF_CACHE/"
 echo "-----> Creating asdf .profile.d script"
 ASDF_REL_DIR="$(realpath --relative-to="$BUILD_DIR" "$ASDF_DIR")"
 echo "*ASDF_REL_DIR: $ASDF_REL_DIR"
-mkdir -p "$BUILD_DIR/.profile.d/"
 ls "$BUILD_DIR"
+mkdir -p "$BUILD_DIR"/.profile.d
 ls "$BUILD_DIR/profile.d"
 #cat << EOF > "$BUILD_DIR/.profile.d/instateam-asdf.sh"
 profile_d=$(cat << EOF

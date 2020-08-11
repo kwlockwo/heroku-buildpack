@@ -76,12 +76,15 @@ echo "-----> Creating asdf .profile.d script"
 ASDF_REL_DIR="$(realpath --relative-to="$BUILD_DIR" "$ASDF_DIR")"
 echo "*ASDF_REL_DIR: $ASDF_REL_DIR"
 mkdir -p $BUILD_DIR/.profile.d/
-cat << EOF > "$BUILD_DIR/.profile.d/asdf.sh"
+cat << EOF > "$BUILD_DIR/.profile.d/instateam-asdf.sh"
 # asdf will set \$PATH variables
 . ${ASDF_REL_DIR}/asdf.sh
 export PATH=$PATH
+
 # bash completions for debugging
-. ${ASDF_REL_DIR}/completions/asdf.bash
+if [ -z "$BASH_VERSION" ]; then
+  . ${ASDF_REL_DIR}/completions/asdf.bash
+end
 EOF
 
 echo "-----> Creating asdf export script"

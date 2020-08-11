@@ -74,10 +74,8 @@ cp -Trf "$ASDF_DIR" "$ASDF_CACHE/"
 
 echo "-----> Creating asdf .profile.d script"
 ASDF_REL_DIR="$(realpath --relative-to="$BUILD_DIR" "$ASDF_DIR")"
-echo "*ASDF_REL_DIR: $ASDF_REL_DIR"
 ls "$BUILD_DIR"
-mkdir -p "$BUILD_DIR"/.profile.d
-ls "$BUILD_DIR/profile.d"
+mkdir -p "$BUILD_DIR/.profile.d"
 #cat << EOF > "$BUILD_DIR/.profile.d/instateam-asdf.sh"
 profile_d=$(cat << EOF
 export PATH="\$HOME/${ASDF_REL_DIR}/shims:\$HOME/${ASDF_REL_DIR}/bin:\$PATH"
@@ -89,8 +87,8 @@ EOF
 echo "PROFILE.D >"
 echo "$profile_d"
 echo
+touch "$BUILD_DIR/.profile.d/instateam-asdf.sh"
 echo "$profile_d" > "$BUILD_DIR/.profile.d/instateam-asdf.sh"
-ls "$BUILD_DIR/profile.d"
 
 if [ -w "$BP_DIR" ]; then
   echo "-----> Creating asdf export script"

@@ -48,8 +48,8 @@ else
 fi
 
 add_install_asdf_plugin() {
-  plugin="$1"
-  repo=${2:-}
+  local plugin="$1"
+  local repo=${2:-}
   if ! asdf plugin list | grep $plugin; then
     echo "-----> Adding asdf $plugin"
     asdf plugin add $plugin $repo | indent
@@ -75,7 +75,7 @@ cp -Trf "$ASDF_DIR" "$ASDF_CACHE/"
 echo "-----> Creating asdf .profile.d script"
 ASDF_REL_DIR="$(realpath --relative-to="$BUILD_DIR" "$ASDF_DIR")"
 echo "*ASDF_REL_DIR: $ASDF_REL_DIR"
-mkdir -p $BUILD_DIR/.profile.d/
+mkdir -p "$BUILD_DIR/.profile.d"
 #cat << EOF > "$BUILD_DIR/.profile.d/instateam-asdf.sh"
 profile_d=$(cat << EOF
 export PATH="\$HOME/${ASDF_REL_DIR}/shims:\$HOME/${ASDF_REL_DIR}/bin:\$PATH"
@@ -88,10 +88,11 @@ echo "PROFILE.D >"
 echo "$profile_d"
 echo
 echo "$profile_d" > "$BUILD_DIR/.profile.d/instateam-asdf.sh"
+ls "$BUILD_DIR/profile.d/"
 
-echo "-----> Creating asdf export script"
-cat << EOF > $BP_DIR/export
-export PATH="\$HOME/${ASDF_REL_DIR}/shims:\$HOME/${ASDF_REL_DIR}/bin:\$PATH"
-EOF
+if [ -w "$BP_DIR" ]; then
+  echo "-----> Creating asdf export script"
+  echo 'export PATH="\$HOME/${ASDF_REL_DIR}/shims:\$HOME/${ASDF_REL_DIR}/bin:\$PATH"' > $BP_DIR/export
+fi
 
 exit 0

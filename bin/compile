@@ -1,7 +1,6 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 # bin/compile <build-dir> <cache-dir> <env-dir>
-
-set -eo pipefail
+set -e
 
 BUILD_DIR=${1:-}
 CACHE_DIR=${2:-}
@@ -26,7 +25,7 @@ mkdir -p "$ASDF_DIR"
 if [ -d "$ASDF_CACHE" ]; then
   if [ -x "$ASDF_CACHE/asdf.sh" ]; then
     echo "-----> Copying asdf cache"
-    cp -Trf "$ASDF_CACHE" "$ASDF_DIR/"
+    cp -Trf "$ASDF_CACHE" "$ASDF_DIR"
     . "$ASDF_DIR/asdf.sh"
   else
     echo "-----> No shell script in asdf cache; removing"
@@ -75,13 +74,14 @@ asdf install | indent
 cp -Trf "$ASDF_DIR" "$ASDF_CACHE"
 
 echo "-----> Creating asdf .profile.d script"
+ASDF_REL_DIR="$(realpath --relative-to="$BUILD_DIR" "$ASDF_DIR")"
 mkdir -p $BUILD_DIR/.profile.d/
 cat << EOF > "$BUILD_DIR/.profile.d/asdf.sh"
 # asdf will set \$PATH variables
-. ${ASDF_DIR}/asdf.sh
+. ${ASDF_REL_DIR}/asdf.sh
 export PATH=$PATH
 # bash completions for debugging
-. ${ASDF_DIR}/completions/asdf.bash
+. ${ASDF_REL_DIR}/completions/asdf.bash
 EOF
 
 echo "-----> Creating asdf export script"

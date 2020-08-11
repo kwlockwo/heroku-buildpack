@@ -78,10 +78,10 @@ echo "*ASDF_REL_DIR: $ASDF_REL_DIR"
 mkdir -p $BUILD_DIR/.profile.d/
 cat << EOF > "$BUILD_DIR/.profile.d/asdf.sh"
 # asdf will set \$PATH variables
-. ${ASDF_REL_DIR}/asdf.sh
+. /.asdf/asdf.sh
 export PATH=$PATH
 # bash completions for debugging
-. ${ASDF_REL_DIR}/completions/asdf.bash
+. /.asdf/completions/asdf.bash
 EOF
 
 echo "-----> Creating asdf export script"

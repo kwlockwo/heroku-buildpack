@@ -92,7 +92,7 @@ ls "$BUILD_DIR/profile.d/"
 
 if [ -w "$BP_DIR" ]; then
   echo "-----> Creating asdf export script"
-  echo 'export PATH="\$HOME/${ASDF_REL_DIR}/shims:\$HOME/${ASDF_REL_DIR}/bin:\$PATH"' > $BP_DIR/export
+  echo "export PATH=\"\$HOME/${ASDF_REL_DIR}/shims:\$HOME/${ASDF_REL_DIR}/bin:\$PATH\"" > "${BP_DIR}/export"
 fi
 
 exit 0

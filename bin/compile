@@ -82,9 +82,7 @@ cat << EOF > "$BUILD_DIR/.profile.d/instateam-asdf.sh"
 export PATH=$PATH
 
 # bash completions for debugging
-if [ -z "$BASH_VERSION" ]; then
-  . ${ASDF_REL_DIR}/completions/asdf.bash
-end
+[ -z "$BASH_VERSION" ] && . ${ASDF_REL_DIR}/completions/asdf.bash
 EOF
 
 echo "-----> Creating asdf export script"

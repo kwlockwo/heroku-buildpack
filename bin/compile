@@ -1,7 +1,7 @@
-#!/usr/bin/env dash
+#!/usr/bin/env bash
 # vim: filetype=sh
 # bin/compile <build-dir> <cache-dir> <env-dir>
-set -eu
+set -euo pipefail
 
 BUILD_DIR=${1:-}
 CACHE_DIR=${2:-}

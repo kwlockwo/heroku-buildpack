@@ -1,5 +1,9 @@
 #!/usr/bin/env dash
+# vim: filetype=sh
+# bin/release <build-dir>
 set -eu
+
+BUILD_DIR=${1:-}
 
 if [ -f $1/.tool-versions ]; then
   echo "Instateam’s buildpack"

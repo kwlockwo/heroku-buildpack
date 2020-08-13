@@ -76,7 +76,7 @@ cp -Trf "$ASDF_DIR" "$ASDF_CACHE/"
 echo "-----> Creating asdf .profile.d script"
 ASDF_REL_DIR="$(realpath --relative-to="$BUILD_DIR" "$ASDF_DIR")"
 mkdir -p "$BUILD_DIR/.profile.d"
-cat << EOF > "$BUILD_DIR/.profile.d/instateam-asdf.sh"
+cat << EOF > "$BUILD_DIR/instateam-asdf.sh"
 export PATH="\$HOME/${ASDF_REL_DIR}/shims:\$HOME/${ASDF_REL_DIR}/bin:\$PATH"
 
 # bash completions for debugging
